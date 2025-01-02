@@ -135,8 +135,7 @@ const CropHealth = () => {
   ];
 
   return (
-    <div className="h-full w-full flex flex-col bg-gradient-to-br from-green-100 to-green-500">
-      <main className="h-full w-full flex flex-col">
+      <main className="h-full w-full flex flex-col bg-gradient-to-br from-green-100 to-green-500">
         <div className="h-full w-full bg-white rounded-xl shadow-xl flex flex-col overflow-hidden">
           <div
             ref={chatLogRef}
@@ -281,7 +280,6 @@ const CropHealth = () => {
           </div>
         </div>
       </main>
-    </div>
   );
 };
 
