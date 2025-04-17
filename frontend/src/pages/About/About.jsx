@@ -70,7 +70,7 @@ const Left = () => {
         data-aos-duration="1200"
         className="text-4xl font-extrabold text-gray-800 mb-5 animate-text-shadow"
       >
-        About AgriConnect
+        About BharathHarvest
       </div>
 
       <div data-aos="fade-up" data-aos-delay="200" className="mb-8">
@@ -79,7 +79,7 @@ const Left = () => {
         </div>
         <div className="text-lg text-gray-800 leading-relaxed space-y-4">
           <p className="animate-slide-up">
-            At AgriConnect, we believe in transforming agriculture through
+            At BharathHarvest, we believe in transforming agriculture through
             technology and community support. Our mission is to empower farmers
             by providing innovative solutions that bridge information gaps and
             enhance agricultural productivity.

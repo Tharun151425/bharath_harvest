@@ -25,7 +25,7 @@ const Left = () => (
       data-aos-easing="ease-out-back"
       className="text-4xl font-extrabold text-gray-800 mb-5 animate-text-shadow"
     >
-      AgriConnect: Empowering Farmers
+      BharathHarvest: Empowering Farmers
     </div>
     <div
       data-aos="fade-up"
@@ -57,7 +57,7 @@ const Left = () => (
       data-aos-duration="1000"
       className="text-lg text-gray-800 leading-relaxed mt-6 animate-fade-in"
     >
-      AgriConnect is here to support farmers with crop sales, modern farming
+      BharathHarvest is here to support farmers with crop sales, modern farming
       techniques, weather updates, and more. Empowering the agricultural
       community, one farmer at a time.
     </div>
@@ -153,7 +153,7 @@ const Features = () => (
       data-aos-duration="1000"
       className="text-4xl font-bold text-center text-gray-800 mb-12 animate-text-shadow"
     >
-      Why Choose AgriConnect?
+      Why Choose BharathHarvest?
     </h2>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-8">
       {[

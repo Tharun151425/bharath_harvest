@@ -36,7 +36,7 @@ function Left() {
         data-aos-duration="1200"
         className="text-4xl font-extrabold text-gray-800 mb-5 animate-text-shadow"
       >
-        Contact AgriConnect
+        Contact BharathHarvest
       </div>
       <form
         onSubmit={handleSubmit}
@@ -117,13 +117,13 @@ function Right() {
     {
       icon: faEnvelope,
       title: "Email",
-      text: "vishalkbhat@agriconnect.com",
+      text: "vssreenivaas@bharathharvest.com",
       action: "Email Us",
     },
     {
       icon: faPhone,
       title: "Phone",
-      text: "+91 7975806665",
+      text: "+91 7892781710",
       action: "Call Now",
     },
     {

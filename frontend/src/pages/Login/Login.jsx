@@ -64,7 +64,7 @@ export default function Login() {
       {/* Left Side */}
       <div className="w-full md:w-1/2 flex flex-col justify-center p-8 bg-green-100">
         <div className="text-4xl font-extrabold text-gray-800 mb-5">
-          Welcome Back to AgriConnect
+          Welcome Back to BharathHarvest
         </div>
         <div className="text-lg text-gray-700 leading-relaxed mb-6">
           Empowering farmers with tools and resources to make farming smarter

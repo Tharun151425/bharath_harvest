@@ -13,10 +13,10 @@ const Logo = () => (
     <img src={logo} alt="logo" className="h-8 w-auto" />
     <div className="font-bold text-white flex">
       <span className="text-red-500 text-3xl italic transform -skew-x-6">
-        Agri
+        Bharath
       </span>
       <span className="text-green-500 text-3xl italic transform skew-x-6">
-        Connect
+        Harvest
       </span>
     </div>
   </div>

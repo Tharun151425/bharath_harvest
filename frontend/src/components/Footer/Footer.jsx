@@ -69,19 +69,19 @@ const Footer = () => {
           <div className="contact-info">
             <p className="contact-item">
               <FontAwesomeIcon icon={faEnvelope} className="contact-icon" />
-              <a href="mailto:vishalkbhat@agriconnect.com">
-                vishalkbhat@agriconnect.com
+              <a href="mailto:vishalkbhat@bharathharvest.com">
+                tharunkrishna@bharathharvest.com
               </a>
             </p>
             <p className="contact-item">
               <FontAwesomeIcon icon={faEnvelope} className="contact-icon" />
-              <a href="mailto:vssreenivaas@agriconnect.com">
-                vssreenivaas@agriconnect.com
+              <a href="mailto:vssreenivaas@bharathharvest.com">
+                vssreenivaas@bharathharvest.com
               </a>
             </p>
             <p className="contact-item">
               <FontAwesomeIcon icon={faPhone} className="contact-icon" />
-              <span>+91 7975806665</span>
+              <span>+91 7892781710</span>
             </p>
           </div>
         </div>
