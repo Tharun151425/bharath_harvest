@@ -10,7 +10,7 @@ const schemes = [
       "Small and marginal farmers who own cultivable land of up to 2 hectares.",
     benefits:
       "₹6,000 annually, paid in three equal installments, directly to the bank account of the farmer.",
-    color: "from-green-400 to-emerald-600",
+    color: "bg-[#283618]",
     link: "https://pmkisan.gov.in/", // Link to PM-KISAN official site
   },
   {
@@ -21,7 +21,7 @@ const schemes = [
       "Farmers, particularly those in underserved areas, requiring capacity building in farming techniques.",
     benefits:
       "Training on advanced farming techniques, provision of subsidies for adopting new technologies.",
-    color: "from-teal-400 to-green-600",
+    color: "bg-[#606C38]",
     link: "https://www.agricoop.nic.in/en/schemes/national-mission-agricultural-extension-and-technology", // Link to official site
   },
   {
@@ -32,7 +32,7 @@ const schemes = [
       "Farmers growing notified crops, with insurance premiums based on the type of crop and geographical area.",
     benefits:
       "Coverage for crop losses, with a minimal premium contribution from the farmer, especially in disaster-hit areas.",
-    color: "from-emerald-400 to-teal-600",
+    color: "bg-[#606C38]",
     link: "https://pmfby.gov.in/", // Link to Fasal Bima Yojana official site
   },
   {
@@ -43,7 +43,7 @@ const schemes = [
       "Farmers across the country, especially those with soil degradation issues.",
     benefits:
       "Free soil testing and recommendations on crop rotation, fertilizers, and other practices to improve soil health.",
-    color: "from-green-500 to-emerald-700",
+    color: "bg-[#283618]",
     link: "https://www.agricoop.nic.in/en/schemes/soil-health-management", // Link to official site
   },
   {
@@ -53,7 +53,7 @@ const schemes = [
     eligibility: "All farmers growing notified crops are eligible.",
     benefits:
       "Premium coverage for crops, reduced premiums for farmers in disaster-prone areas.",
-    color: "from-teal-500 to-green-700",
+    color: "bg-[#606C38]",
     link: "https://pmfby.gov.in/", // Link to PMFBY official site
   },
   {
@@ -64,7 +64,7 @@ const schemes = [
       "State governments are the primary beneficiaries. Farmers can indirectly benefit.",
     benefits:
       "Infrastructure development, technology upgrades, and more accessible resources for farmers.",
-    color: "from-emerald-500 to-teal-700",
+    color: "bg-[#283618]",
     link: "https://www.agricoop.nic.in/en/schemes/rashtriya-krishi-vikas-yojana", // Link to official site
   },
 ];
@@ -73,72 +73,133 @@ const SchemeCard = ({ scheme, index }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
-      whileHover={{ scale: 1.02, rotateY: 5, zIndex: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.7, delay: index * 0.1 }}
       className="w-full"
     >
-      <div className="h-full rounded-2xl shadow-xl overflow-hidden transform-gpu">
-        <div className={`p-6 h-full bg-gradient-to-br ${scheme.color}`}>
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: index * 0.2 }}
-            className="space-y-4"
-          >
-            <h2 className="text-2xl font-bold text-white mb-4">
-              {scheme.name}
-            </h2>
+      <motion.div 
+        className="h-full rounded-2xl shadow-lg overflow-hidden transform-gpu"
+        whileHover={{ y: -8, scale: 1.02 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className={`p-6 h-full ${scheme.color} text-[#FEFAE0]`}>
+          <div className="space-y-5">
+            <div className="relative mb-6">
+              <h2 className="text-2xl font-bold mb-2">
+                {scheme.name}
+              </h2>
+              <motion.div 
+                className="absolute -bottom-2 left-0 h-1 bg-[#DDA15E] rounded-full" 
+                initial={{ width: 0 }}
+                whileInView={{ width: "40%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
+              />
+            </div>
 
-            <div className="space-y-6">
-              <div className="bg-white/10 backdrop-blur-md rounded-lg p-4">
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  Description
-                </h3>
-                <p className="text-white/90">{scheme.description}</p>
-              </div>
+            <div className="space-y-4">
+              <motion.div 
+                className="bg-[#FEFAE0]/10 backdrop-blur-md rounded-lg p-4 overflow-hidden relative"
+                whileHover={{ 
+                  scale: 1.03, 
+                  backgroundColor: "rgba(254, 250, 224, 0.15)" 
+                }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.div 
+                  className="absolute top-0 left-0 w-0 h-full bg-[#DDA15E]/10"
+                  whileHover={{ width: "100%" }}
+                  transition={{ duration: 0.4 }}
+                />
+                <div className="relative z-10">
+                  <h3 className="text-lg font-semibold mb-2 text-[#DDA15E]">
+                    Description
+                  </h3>
+                  <p className="text-[#FEFAE0]/90">{scheme.description}</p>
+                </div>
+              </motion.div>
 
-              <div className="bg-white/10 backdrop-blur-md rounded-lg p-4">
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  Eligibility
-                </h3>
-                <p className="text-white/90">{scheme.eligibility}</p>
-              </div>
+              <motion.div 
+                className="bg-[#FEFAE0]/10 backdrop-blur-md rounded-lg p-4 overflow-hidden relative"
+                whileHover={{ 
+                  scale: 1.03, 
+                  backgroundColor: "rgba(254, 250, 224, 0.15)" 
+                }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.div 
+                  className="absolute top-0 left-0 w-0 h-full bg-[#DDA15E]/10"
+                  whileHover={{ width: "100%" }}
+                  transition={{ duration: 0.4 }}
+                />
+                <div className="relative z-10">
+                  <h3 className="text-lg font-semibold mb-2 text-[#DDA15E]">
+                    Eligibility
+                  </h3>
+                  <p className="text-[#FEFAE0]/90">{scheme.eligibility}</p>
+                </div>
+              </motion.div>
 
-              <div className="bg-white/10 backdrop-blur-md rounded-lg p-4">
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  Benefits
-                </h3>
-                <p className="text-white/90">{scheme.benefits}</p>
-              </div>
+              <motion.div 
+                className="bg-[#FEFAE0]/10 backdrop-blur-md rounded-lg p-4 overflow-hidden relative"
+                whileHover={{ 
+                  scale: 1.03, 
+                  backgroundColor: "rgba(254, 250, 224, 0.15)" 
+                }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.div 
+                  className="absolute top-0 left-0 w-0 h-full bg-[#DDA15E]/10"
+                  whileHover={{ width: "100%" }}
+                  transition={{ duration: 0.4 }}
+                />
+                <div className="relative z-10">
+                  <h3 className="text-lg font-semibold mb-2 text-[#DDA15E]">
+                    Benefits
+                  </h3>
+                  <p className="text-[#FEFAE0]/90">{scheme.benefits}</p>
+                </div>
+              </motion.div>
             </div>
 
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, backgroundColor: "#BC6C25" }}
               whileTap={{ scale: 0.95 }}
-              className="w-full mt-6 px-6 py-3 bg-white text-green-700 rounded-lg font-semibold hover:bg-green-50 transition-colors"
+              className="w-full mt-6 px-6 py-3 bg-[#DDA15E] text-[#283618] rounded-lg font-medium transition-all duration-300"
               onClick={() => window.open(scheme.link, "_blank")} // Opens scheme link in a new tab
             >
               Apply Now
             </motion.button>
-          </motion.div>
+          </div>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 };
 
 const SchemesPage = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-emerald-100 py-16 px-4">
+    <div className="min-h-screen bg-[#FEFAE0] py-16 px-4">
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
         className="max-w-7xl mx-auto"
       >
-        <h1 className="text-5xl font-bold text-center text-green-800 mb-16">
-          Government Schemes for Farmers
-        </h1>
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <h1 className="text-4xl md:text-5xl font-bold text-[#283618] mb-4">
+            Government Schemes for Farmers
+          </h1>
+          <p className="text-lg text-[#606C38] max-w-2xl mx-auto">
+            Explore various government initiatives designed to support and empower the agricultural community
+          </p>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {schemes.map((scheme, index) => (

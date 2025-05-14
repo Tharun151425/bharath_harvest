@@ -1,6 +1,36 @@
 /* Footer.css */
+.footer-bg {
+  background-color: #FEFAE0;
+  background-image: 
+    radial-gradient(#606C38 0.5px, transparent 0.5px), 
+    radial-gradient(#606C38 0.5px, #FEFAE0 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  position: relative;
+}
+
+.footer-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #DDA15E, transparent);
+}
+
+.footer-section a,
+.footer-section a:visited {
+  color: #283618;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-section a:hover {
+  color: #606C38;
+}
+
 .footer-container {
-  background: linear-gradient(to bottom, #f0fdf4, #dcfce7);
   padding: 4rem 2rem 1rem;
   color: #1f2937;
 }
@@ -146,6 +176,12 @@
 
   .main-section {
     grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    padding: 2rem 1rem;
   }
 }
 

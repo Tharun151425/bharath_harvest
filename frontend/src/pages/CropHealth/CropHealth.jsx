@@ -12,6 +12,7 @@ import {
   faSun,
 } from "@fortawesome/free-solid-svg-icons";
 import ReactMarkdown from "react-markdown";
+import { motion, AnimatePresence } from "framer-motion";
 import "./CropHealth.css";
 
 const CropHealth = () => {
@@ -134,43 +135,105 @@ const CropHealth = () => {
     "How to improve plant growth?",
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
+  const chatMessageVariants = {
+    initial: { 
+      opacity: 0,
+      y: 20
+    },
+    animate: { 
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.3
+      }
+    }
+  };
+
   return (
-      <main className="h-full w-full flex flex-col bg-gradient-to-br from-green-100 to-green-500">
-        <div className="h-full w-full bg-white rounded-xl shadow-xl flex flex-col overflow-hidden">
+    <motion.main 
+      className="h-full w-full flex flex-col bg-[#FEFAE0]"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <div className="max-w-7xl mx-auto w-full p-4 md:p-8">
+        <motion.div 
+          className="h-[85vh] w-full bg-white rounded-2xl shadow-lg flex flex-col overflow-hidden"
+          initial={{ y: 20 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <div
             ref={chatLogRef}
-            className="h-[85vh] overflow-y-auto bg-gray-50 border-b border-gray-200 p-2 sm:p-4"
+            className="h-[85vh] overflow-y-auto bg-[#FEFAE0]/50 border-b border-[#DDA15E]/20 p-2 sm:p-4"
           >
             {chatLog.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full text-center p-4">
-                <div className="mb-6 flex items-center justify-center w-24 h-24 sm:w-32 sm:h-32 bg-green-100 rounded-full shadow-lg">
+              <motion.div 
+                className="flex flex-col items-center justify-center h-full text-center p-4"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <motion.div 
+                  className="mb-6 flex items-center justify-center w-24 h-24 sm:w-32 sm:h-32 bg-[#606C38]/10 rounded-full"
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 2, ease: "easeInOut" }}
+                >
                   <FontAwesomeIcon
                     icon={faSeedling}
-                    className="text-4xl sm:text-6xl text-green-600 animate-pulse"
+                    className="text-4xl sm:text-6xl text-[#606C38]"
                   />
-                </div>
+                </motion.div>
 
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                <motion.h2 
+                  className="text-xl sm:text-2xl font-bold text-[#283618] mb-4 flex items-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                >
                   <FontAwesomeIcon
                     icon={faCommentDots}
-                    className="mr-2 sm:mr-3 text-green-600"
+                    className="mr-2 sm:mr-3 text-[#606C38]"
                   />
                   Welcome to Plant Health Assistant
-                </h2>
+                </motion.h2>
 
-                <p className="text-base sm:text-lg text-gray-600 mb-6 max-w-md px-4">
+                <motion.p 
+                  className="text-base sm:text-lg text-[#283618]/80 mb-6 max-w-md px-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                >
                   Got plant questions? I'm here to help! Upload an image or ask
                   about plant health.
-                </p>
+                </motion.p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-xl mx-auto w-full px-4">
+                <motion.div 
+                  className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-xl mx-auto w-full px-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.9 }}
+                >
                   {dummyPrompts.map((prompt, index) => (
-                    <div
+                    <motion.div
                       key={index}
-                      className="bg-white border border-green-200 rounded-lg p-3 
-                       hover:bg-green-50 transition-all duration-300 
+                      className="bg-white border border-[#DDA15E]/30 rounded-lg p-3 
+                       hover:bg-[#DDA15E]/10 transition-all duration-300 
                        flex items-center justify-center space-x-2 
-                       cursor-pointer group"
+                       cursor-pointer"
+                      whileHover={{ scale: 1.05, y: -5 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setMessage(prompt)}
                     >
                       <FontAwesomeIcon
                         icon={
@@ -180,65 +243,88 @@ const CropHealth = () => {
                             ? faLightbulb
                             : faSun
                         }
-                        className="text-green-500 group-hover:text-green-700 transition-colors"
+                        className="text-[#606C38]"
                       />
-                      <span className="text-sm text-gray-700 group-hover:text-green-800">
+                      <span className="text-sm text-[#283618]">
                         {prompt}
                       </span>
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             ) : (
               <div className="space-y-4">
                 {chatLog.map((entry, index) => (
-                  <div
+                  <motion.div
                     key={index}
                     className={`flex w-full ${
                       entry.user === "You" ? "justify-end" : "justify-start"
                     }`}
+                    variants={chatMessageVariants}
+                    initial="initial"
+                    animate="animate"
                   >
-                    <div
+                    <motion.div
                       className={`p-3 sm:p-4 rounded-lg shadow-sm max-w-[85%] sm:max-w-[75%] break-words
                         ${
                           entry.user === "You"
-                            ? "chat-message-right bg-green-100 text-green-900"
-                            : "chat-message-left bg-gray-200 text-gray-900"
+                            ? "bg-[#606C38]/10 text-[#283618] border border-[#606C38]/30"
+                            : "bg-[#283618] text-[#FEFAE0]"
                         }`}
+                      whileHover={{ scale: 1.01 }}
+                      transition={{ duration: 0.2 }}
                     >
                       <div className="flex items-center mb-2">
-                        <FontAwesomeIcon
-                          icon={entry.user === "You" ? faSeedling : faLeaf}
-                          className={`mr-2 ${
-                            entry.user === "You"
-                              ? "text-green-600"
-                              : "text-gray-600"
-                          }`}
-                        />
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-2 ${
+                          entry.user === "You"
+                            ? "bg-[#606C38]/20"
+                            : "bg-[#DDA15E]/20"
+                        }`}>
+                          <FontAwesomeIcon
+                            icon={entry.user === "You" ? faSeedling : faLeaf}
+                            className={
+                              entry.user === "You"
+                                ? "text-[#606C38]"
+                                : "text-[#DDA15E]"
+                            }
+                          />
+                        </div>
                         <strong className="font-semibold text-sm sm:text-base">
                           {entry.user}
                         </strong>
                       </div>
-                      <div className="text-sm sm:text-base">
+                      <div className="text-sm sm:text-base ml-10">
                         <ReactMarkdown>{entry.text}</ReactMarkdown>
                       </div>
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
                 ))}
               </div>
             )}
 
             {loading && (
-              <div className="flex justify-center items-center mt-4">
-                <ClipLoader size={40} color="#10B981" loading={loading} />
-              </div>
+              <motion.div 
+                className="flex justify-center items-center mt-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <ClipLoader size={40} color="#606C38" loading={loading} />
+              </motion.div>
             )}
           </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 p-2 sm:p-4 bg-white border-t border-gray-200">
-            <label
+          <motion.div 
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-white border-t border-[#DDA15E]/20"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <motion.label
               htmlFor="image-upload"
-              className="flex items-center justify-center px-3 py-2 bg-green-600 text-white rounded-md cursor-pointer hover:bg-green-700 transition"
+              className="flex items-center justify-center px-3 py-2 bg-[#606C38] text-[#FEFAE0] rounded-md cursor-pointer transition-all duration-300"
+              whileHover={{ scale: 1.05, backgroundColor: "#4d5a27" }}
+              whileTap={{ scale: 0.95 }}
             >
               <FontAwesomeIcon icon={faUpload} className="mr-2" />
               <span className="truncate max-w-[150px]">
@@ -252,34 +338,40 @@ const CropHealth = () => {
                 className="hidden"
                 onChange={handleImageUpload}
               />
-            </label>
+            </motion.label>
             <div className="flex-1 flex gap-2">
-              <input
+              <motion.input
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Ask something about plant health..."
-                className="flex-grow px-3 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="flex-grow px-3 py-2 bg-[#FEFAE0]/30 text-[#283618] border border-[#DDA15E]/30 rounded-md focus:outline-none focus:ring-2 focus:ring-[#606C38] transition-all duration-300"
                 onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+                whileFocus={{ scale: 1.01 }}
               />
-              <button
+              <motion.button
                 onClick={analyzeImage}
-                className="px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition disabled:opacity-50 whitespace-nowrap"
+                className="px-3 py-2 bg-[#DDA15E] text-[#283618] rounded-md disabled:opacity-50 whitespace-nowrap transition-all duration-300"
                 disabled={!image || imageLoading}
+                whileHover={{ scale: 1.05, backgroundColor: "#BC6C25" }}
+                whileTap={{ scale: 0.95 }}
               >
                 Analyze
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 onClick={sendMessage}
-                className="bg-green-600 text-white px-3 py-2 rounded-md hover:bg-green-700 transition flex items-center justify-center whitespace-nowrap"
+                className="bg-[#606C38] text-[#FEFAE0] px-3 py-2 rounded-md flex items-center justify-center whitespace-nowrap transition-all duration-300"
+                whileHover={{ scale: 1.05, backgroundColor: "#4d5a27" }}
+                whileTap={{ scale: 0.95 }}
               >
                 <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />
                 <span className="hidden sm:inline">Send</span>
-              </button>
+              </motion.button>
             </div>
-          </div>
-        </div>
-      </main>
+          </motion.div>
+        </motion.div>
+      </div>
+    </motion.main>
   );
 };
 

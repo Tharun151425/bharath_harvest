@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebaseFunctions/firebaseConfig";
-import { Sprout, LogOut, Settings } from "lucide-react";
+import { Sprout, LogOut, Settings, Plus, Leaf } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { motion } from "framer-motion";
+import { faPlus, faPen, faTrash, faLeaf, faWheatAwn } from "@fortawesome/free-solid-svg-icons";
+import { motion, AnimatePresence } from "framer-motion";
 import { Farmer, Crop } from "../../../firebaseFunctions/cropFarmer";
 import Modal from "../MarketPlace/Modal";
 
@@ -108,41 +108,69 @@ export default function FarmerProfile() {
     }
   };
 
-  const TableRow = ({ crop }) => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 0.1,
+      },
+    },
+  };
 
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 300, damping: 24 }
+    }
+  };
+
+  const TableRow = ({ crop }) => {
     return (
       <motion.tr
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
-        className="hover:bg-gray-50"
+        className="hover:bg-[#FEFAE0]/50 transition-colors"
       >
-        <td className="px-6 py-4">{crop.cropName}</td>
-        <td className="px-6 py-4">{crop.cropVariety}</td>
-        <td className="px-6 py-4">₹{crop.cropPrice}</td>
-        <td className="px-6 py-4">{crop.cropWeight} kg</td>
-        <td className="px-6 py-4">{crop.cropLocation}</td>
+        <td className="px-6 py-4 whitespace-nowrap">
+          <div className="flex items-center">
+            <FontAwesomeIcon icon={faLeaf} className="text-[#606C38] mr-2" />
+            <span className="font-medium text-[#283618]">{crop.cropName}</span>
+          </div>
+        </td>
+        <td className="px-6 py-4 text-[#283618]">{crop.cropVariety}</td>
         <td className="px-6 py-4">
-          <div className="flex gap-2">
+          <span className="font-medium text-[#BC6C25]">₹{crop.cropPrice}</span>
+        </td>
+        <td className="px-6 py-4">
+          <span className="text-[#283618]">{crop.cropWeight} kg</span>
+        </td>
+        <td className="px-6 py-4 text-[#283618]">{crop.cropLocation}</td>
+        <td className="px-6 py-4">
+          <div className="flex gap-3">
             <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => {
                 setEditingCrop(crop);
                 setCropData(crop);
                 setIsModalOpen(true);
               }}
-              className="text-blue-600 hover:text-blue-800"
+              className="text-[#606C38] hover:text-[#283618] transition-colors"
             >
-              <FontAwesomeIcon icon={faPen} />
+              <FontAwesomeIcon icon={faPen} size="lg" />
             </motion.button>
             <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.15, rotate: 10 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => deleteCrop(crop)}
-              className="text-red-600 hover:text-red-800"
+              className="text-[#BC6C25] hover:text-red-600 transition-colors"
             >
-              <FontAwesomeIcon icon={faTrash} />
+              <FontAwesomeIcon icon={faTrash} size="lg" />
             </motion.button>
           </div>
         </td>
@@ -151,45 +179,115 @@ export default function FarmerProfile() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div className="bg-green-500 px-8 py-12 text-center">
-          <Sprout className="w-24 h-24 text-white mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-white mb-2">
+    <motion.div 
+      className="min-h-screen bg-[#FEFAE0]/30 py-12 px-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.div 
+        className="max-w-4xl mx-auto"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div
+          variants={itemVariants}
+          className="bg-[#283618] rounded-t-2xl px-8 py-12 text-center shadow-lg overflow-hidden"
+        >
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ 
+              type: "spring", 
+              stiffness: 260, 
+              damping: 20,
+              delay: 0.3 
+            }}
+            className="w-24 h-24 bg-[#FEFAE0] rounded-full flex justify-center items-center mx-auto mb-6 shadow-md"
+          >
+            <Sprout className="w-12 h-12 text-[#606C38]" />
+          </motion.div>
+          
+          <h2 className="text-3xl font-bold text-[#FEFAE0] mb-3">
             Farmer Dashboard
           </h2>
-          <span className="text-green-100">Farmer ID: {userID}</span>
-        </div>
+          <motion.div 
+            className="h-1 w-24 bg-[#DDA15E] mx-auto rounded-full mb-4"
+            initial={{ width: 0 }}
+            animate={{ width: 96 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          />
+          <span className="text-[#FEFAE0]/80 bg-[#606C38]/50 px-3 py-1 rounded-full text-sm">
+            ID: {userID}
+          </span>
+        </motion.div>
 
-        <div className="p-8">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gray-50">
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <motion.div 
+          variants={itemVariants}
+          className="bg-white rounded-b-2xl p-8 shadow-lg"
+        >
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-xl font-bold text-[#283618] flex items-center">
+              <FontAwesomeIcon icon={faWheatAwn} className="text-[#606C38] mr-2" />
+              Your Crops
+            </h3>
+            <motion.button
+              whileHover={{ scale: 1.05, backgroundColor: "#283618" }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsModalOpen(true)}
+              className="px-4 py-2 bg-[#606C38] text-[#FEFAE0] rounded-lg font-medium inline-flex items-center gap-2 shadow-md"
+            >
+              <FontAwesomeIcon icon={faPlus} />
+              Add New Crop
+            </motion.button>
+          </div>
+
+          <div className="overflow-x-auto rounded-lg border border-[#DDA15E]/20">
+            <table className="min-w-full divide-y divide-[#DDA15E]/20">
+              <thead className="bg-[#FEFAE0]">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
                     Crop Name
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
                     Variety
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
                     Price/kg
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
                     Weight
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
                     Location
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
-                {crops.map((crop) => (
-                  <TableRow key={crop.cropID} crop={crop} />
-                ))}
+              <tbody className="bg-white divide-y divide-[#DDA15E]/10">
+                <AnimatePresence>
+                  {crops.length > 0 ? (
+                    crops.map((crop) => (
+                      <TableRow key={crop.cropID} crop={crop} />
+                    ))
+                  ) : (
+                    <motion.tr 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      <td colSpan="6" className="px-6 py-12 text-center">
+                        <div className="text-[#606C38] flex flex-col items-center">
+                          <FontAwesomeIcon icon={faLeaf} className="text-4xl mb-3 opacity-50" />
+                          <p className="text-lg">No crops added yet. Click "Add New Crop" to get started.</p>
+                        </div>
+                      </td>
+                    </motion.tr>
+                  )}
+                </AnimatePresence>
               </tbody>
             </table>
           </div>
@@ -203,21 +301,30 @@ export default function FarmerProfile() {
             editingCrop={editingCrop}
           />
 
-          <div className="flex flex-col sm:flex-row gap-4 mt-8 pt-8 border-t">
-            <button className="flex-1 inline-flex justify-center items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row gap-4 mt-10 pt-8 border-t border-[#DDA15E]/20"
+          >
+            <motion.button 
+              className="flex-1 inline-flex justify-center items-center gap-2 px-4 py-3 bg-[#606C38] text-[#FEFAE0] rounded-lg shadow-md font-medium"
+              whileHover={{ scale: 1.03, backgroundColor: "#283618" }}
+              whileTap={{ scale: 0.97 }}
+            >
               <Settings className="w-5 h-5" />
               Account Settings
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               onClick={handleSignOut}
-              className="flex-1 inline-flex justify-center items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+              className="flex-1 inline-flex justify-center items-center gap-2 px-4 py-3 bg-[#BC6C25] text-[#FEFAE0] rounded-lg shadow-md font-medium"
+              whileHover={{ scale: 1.03, backgroundColor: "#9c5a1d" }}
+              whileTap={{ scale: 0.97 }}
             >
               <LogOut className="w-5 h-5" />
               Sign Out
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+            </motion.button>
+          </motion.div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }

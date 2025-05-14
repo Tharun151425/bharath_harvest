@@ -7,8 +7,9 @@ import {
   faPaperPlane,
   faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { motion } from "framer-motion";
 
-function Left() {
+function LeftSection() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -29,90 +30,142 @@ function Left() {
     alert("Thank you for your message! We will get back to you soon.");
   };
 
+  const formVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6, type: "spring", stiffness: 50 }
+    }
+  };
+
   return (
-    <div className="flex flex-col justify-center p-8 bg-gradient-to-br from-green-50 to-green-100 w-full min-h-[90vh] mx-auto">
-      <div
-        data-aos="fade-right"
-        data-aos-duration="1200"
-        className="text-4xl font-extrabold text-gray-800 mb-5 animate-text-shadow"
+    <div className="flex flex-col justify-center p-8 bg-[#FEFAE0] w-full min-h-[90vh] mx-auto">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="mb-8"
       >
-        Contact BharathHarvest
-      </div>
-      <form
+        <h1 className="text-4xl font-bold text-[#283618] mb-2">
+          Contact <span className="text-[#606C38]">BharathHarvest</span>
+        </h1>
+        <motion.div 
+          className="h-1 w-20 bg-[#DDA15E] rounded-full"
+          initial={{ width: 0 }}
+          whileInView={{ width: 80 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.5 }}
+        />
+      </motion.div>
+
+      <motion.form
         onSubmit={handleSubmit}
+        variants={formVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
         className="space-y-6"
-        data-aos="fade-up"
-        data-aos-delay="200"
       >
-        <div className="transform hover:translate-y-[-2px] transition-transform duration-300">
+        <motion.div 
+          variants={itemVariants}
+          className="group"
+        >
           <label
             htmlFor="name"
-            className="block text-gray-700 font-semibold mb-2"
+            className="block text-[#283618] font-medium mb-2"
           >
             Full Name
           </label>
-          <input
+          <motion.input
             type="text"
             id="name"
             name="name"
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm hover:shadow-md transition-shadow duration-300"
+            className="w-full px-4 py-3 border border-[#DDA15E]/30 rounded-lg text-[#283618] bg-white focus:outline-none focus:ring-2 focus:ring-[#606C38] transition-all duration-300"
             placeholder="Enter your full name"
+            whileFocus={{ scale: 1.01 }}
           />
-        </div>
-        <div className="transform hover:translate-y-[-2px] transition-transform duration-300">
+        </motion.div>
+
+        <motion.div 
+          variants={itemVariants}
+          className="group"
+        >
           <label
             htmlFor="email"
-            className="block text-gray-700 font-semibold mb-2"
+            className="block text-[#283618] font-medium mb-2"
           >
             Email Address
           </label>
-          <input
+          <motion.input
             type="email"
             id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm hover:shadow-md transition-shadow duration-300"
+            className="w-full px-4 py-3 border border-[#DDA15E]/30 rounded-lg text-[#283618] bg-white focus:outline-none focus:ring-2 focus:ring-[#606C38] transition-all duration-300"
             placeholder="Enter your email address"
+            whileFocus={{ scale: 1.01 }}
           />
-        </div>
-        <div className="transform hover:translate-y-[-2px] transition-transform duration-300">
+        </motion.div>
+
+        <motion.div 
+          variants={itemVariants}
+          className="group"
+        >
           <label
             htmlFor="message"
-            className="block text-gray-700 font-semibold mb-2"
+            className="block text-[#283618] font-medium mb-2"
           >
             Your Message
           </label>
-          <textarea
+          <motion.textarea
             id="message"
             name="message"
             value={formData.message}
             onChange={handleChange}
             required
             rows="4"
-            className="w-full px-4 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm hover:shadow-md transition-shadow duration-300"
+            className="w-full px-4 py-3 border border-[#DDA15E]/30 rounded-lg text-[#283618] bg-white focus:outline-none focus:ring-2 focus:ring-[#606C38] transition-all duration-300"
             placeholder="Type your message here"
-          ></textarea>
-        </div>
-        <button
+            whileFocus={{ scale: 1.01 }}
+          ></motion.textarea>
+        </motion.div>
+
+        <motion.button
           type="submit"
-          className="w-full px-6 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl animate-pulse-subtle font-semibold"
+          variants={itemVariants}
+          whileHover={{ scale: 1.05, backgroundColor: "#4d5a27" }}
+          whileTap={{ scale: 0.95 }}
+          className="w-full px-6 py-4 bg-[#606C38] text-[#FEFAE0] rounded-lg font-medium shadow-md transition-all duration-300"
         >
           <div className="flex items-center justify-center gap-2">
             <span>Send Message</span>
-            <FontAwesomeIcon icon={faPaperPlane} className="text-lg" />
+            <FontAwesomeIcon icon={faPaperPlane} />
           </div>
-        </button>
-      </form>
+        </motion.button>
+      </motion.form>
     </div>
   );
 }
 
-function Right() {
+function RightSection() {
   const contactInfo = [
     {
       icon: faEnvelope,
@@ -135,48 +188,73 @@ function Right() {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-around p-8 bg-gradient-to-br from-green-500 to-green-600 w-full min-h-[90vh]">
-      <div
-        data-aos="zoom-in"
-        data-aos-duration="1200"
-        className="mb-6 animate-float"
+    <div className="flex flex-col items-center justify-around p-8 bg-[#283618] w-full min-h-[90vh]">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+        className="mb-12"
       >
-        <div className="flex items-center justify-center w-32 h-32 bg-green-100 rounded-full shadow-2xl hover:shadow-3xl transition-shadow duration-300">
+        <motion.div 
+          className="flex items-center justify-center w-32 h-32 bg-[#FEFAE0] rounded-full"
+          whileHover={{ rotate: 360 }}
+          transition={{ duration: 2 }}
+        >
           <FontAwesomeIcon
             icon={faPaperPlane}
-            className="text-6xl text-green-600 transform hover:scale-110 transition-transform duration-300"
+            className="text-6xl text-[#606C38]"
           />
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
+
       <div className="w-full max-w-lg">
-        <ul className="space-y-4 text-xl text-white">
+        <motion.ul 
+          className="space-y-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
           {contactInfo.map((contact, index) => (
-            <li
+            <motion.li
               key={index}
-              data-aos="fade-left"
-              data-aos-delay={index * 150}
-              className="flex items-center justify-between p-4 rounded-lg cursor-pointer bg-green-400/20 backdrop-blur-sm hover:bg-green-400/30 transition-all duration-300 transform hover:translate-x-2 group"
-              tabIndex="0"
-              role="button"
-              aria-label={contact.title}
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
+              className="flex items-center justify-between p-4 rounded-lg cursor-pointer bg-[#FEFAE0]/10 hover:bg-[#FEFAE0]/20 transition-all duration-300"
+              whileHover={{ x: 5 }}
             >
               <div className="flex items-center gap-4">
-                <FontAwesomeIcon
-                  icon={contact.icon}
-                  className="text-2xl animate-spin-slow"
-                />
+                <motion.div 
+                  className="w-10 h-10 rounded-full bg-[#DDA15E]/20 flex items-center justify-center"
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                >
+                  <FontAwesomeIcon
+                    icon={contact.icon}
+                    className="text-[#DDA15E]"
+                  />
+                </motion.div>
                 <div>
-                  <div className="font-semibold">{contact.title}</div>
-                  <div className="text-sm opacity-90">{contact.text}</div>
+                  <div className="font-semibold text-[#FEFAE0]">{contact.title}</div>
+                  <div className="text-sm text-[#FEFAE0]/80">{contact.text}</div>
                 </div>
               </div>
-              <FontAwesomeIcon
-                icon={faArrowRight}
-                className="text-xl transform group-hover:translate-x-1 transition-transform duration-300"
-              />
-            </li>
+              <motion.div
+                initial={{ x: 0 }}
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
+              >
+                <FontAwesomeIcon
+                  icon={faArrowRight}
+                  className="text-[#DDA15E]"
+                />
+              </motion.div>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       </div>
     </div>
   );
@@ -186,10 +264,10 @@ export default function Contact() {
   return (
     <div className="min-h-[85vh] flex flex-col md:flex-row w-full mx-auto overflow-hidden">
       <div className="w-full md:w-1/2">
-        <Left />
+        <LeftSection />
       </div>
       <div className="w-full md:w-1/2">
-        <Right />
+        <RightSection />
       </div>
     </div>
   );

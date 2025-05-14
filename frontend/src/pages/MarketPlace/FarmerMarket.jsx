@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
   faPen,
   faTrash,
   faLeaf,
+  faChartLine,
+  faLocationDot,
+  faDollarSign,
+  faWeightScale,
 } from "@fortawesome/free-solid-svg-icons";
 import { Farmer, Crop } from "../../../firebaseFunctions/cropFarmer";
 import Modal from "./Modal"; // Import the Modal component
@@ -172,44 +176,72 @@ const FarmerMarket = ({ farmerID }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
-        className="hover:bg-gray-50"
+        className="hover:bg-[#FEFAE0]/50 transition-colors"
       >
-        <td className="px-6 py-4">{crop.cropName}</td>
-        <td className="px-6 py-4">{crop.cropVariety}</td>
-        <td className="px-6 py-4">₹{crop.cropPrice}</td>
+        <td className="px-6 py-4 whitespace-nowrap">
+          <div className="flex items-center">
+            <FontAwesomeIcon icon={faLeaf} className="text-[#606C38] mr-2" />
+            <span className="font-medium text-[#283618]">{crop.cropName}</span>
+          </div>
+        </td>
+        <td className="px-6 py-4 text-[#283618]">{crop.cropVariety}</td>
         <td className="px-6 py-4">
-          ₹{Math.floor(predictedPrices.minPrice)/100}
+          <div className="flex items-center">
+            <FontAwesomeIcon icon={faDollarSign} className="text-[#BC6C25] mr-2" />
+            <span className="font-medium text-[#BC6C25]">₹{crop.cropPrice}</span>
+          </div>
         </td>
         <td className="px-6 py-4">
-          ₹{Math.floor(predictedPrices.maxPrice)/100}
+          <div className="flex items-center text-[#606C38]">
+            <FontAwesomeIcon icon={faChartLine} className="mr-2" />
+            <span>₹{Math.floor(predictedPrices.minPrice)/100}</span>
+          </div>
         </td>
         <td className="px-6 py-4">
-          ₹{Math.floor(predictedPrices.modalPrice)/100}
+          <div className="flex items-center text-[#606C38]">
+            <FontAwesomeIcon icon={faChartLine} className="mr-2" />
+            <span>₹{Math.floor(predictedPrices.maxPrice)/100}</span>
+          </div>
         </td>
-
-        <td className="px-6 py-4">{crop.cropWeight} kg</td>
-        <td className="px-6 py-4">{crop.cropLocation}</td>
         <td className="px-6 py-4">
-          <div className="flex gap-2">
+          <div className="flex items-center text-[#606C38]">
+            <FontAwesomeIcon icon={faChartLine} className="mr-2" />
+            <span>₹{Math.floor(predictedPrices.modalPrice)/100}</span>
+          </div>
+        </td>
+        <td className="px-6 py-4">
+          <div className="flex items-center">
+            <FontAwesomeIcon icon={faWeightScale} className="text-[#606C38] mr-2" />
+            <span className="text-[#283618]">{crop.cropWeight} kg</span>
+          </div>
+        </td>
+        <td className="px-6 py-4">
+          <div className="flex items-center">
+            <FontAwesomeIcon icon={faLocationDot} className="text-[#DDA15E] mr-2" />
+            <span className="text-[#283618]">{crop.cropLocation}</span>
+          </div>
+        </td>
+        <td className="px-6 py-4">
+          <div className="flex gap-3">
             <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => {
                 setEditingCrop(crop);
                 setCropData(crop);
                 setIsModalOpen(true);
               }}
-              className="text-blue-600 hover:text-blue-800"
+              className="text-[#606C38] hover:text-[#283618] transition-colors"
             >
-              <FontAwesomeIcon icon={faPen} />
+              <FontAwesomeIcon icon={faPen} size="lg" />
             </motion.button>
             <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.15, rotate: 10 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => deleteCrop(crop)}
-              className="text-red-600 hover:text-red-800"
+              className="text-[#BC6C25] hover:text-red-600 transition-colors"
             >
-              <FontAwesomeIcon icon={faTrash} />
+              <FontAwesomeIcon icon={faTrash} size="lg" />
             </motion.button>
           </div>
         </td>
@@ -217,70 +249,125 @@ const FarmerMarket = ({ farmerID }) => {
     );
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.1,
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <FontAwesomeIcon icon={faLeaf} className="text-green-600" />
-            Crop Manager
-          </h1>
-        </div>
+    <motion.div
+      className="min-h-screen bg-[#FEFAE0]/50 py-12 px-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.div
+        className="max-w-7xl mx-auto"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div 
+          className="bg-white rounded-xl shadow-xl overflow-hidden mb-8"
+          variants={itemVariants}
+        >
+          <div className="bg-[#283618] p-6 flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center mb-4 md:mb-0">
+              <FontAwesomeIcon 
+                icon={faLeaf} 
+                className="text-[#FEFAE0] text-3xl mr-4" 
+              />
+              <h1 className="text-2xl font-bold text-[#FEFAE0]">
+                Crop Manager
+              </h1>
+            </div>
+            <motion.button
+              onClick={() => setIsModalOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-4 py-2 bg-[#DDA15E] text-[#283618] rounded-lg font-medium flex items-center space-x-2 shadow-md"
+            >
+              <FontAwesomeIcon icon={faPlus} />
+              <span>Add New Crop</span>
+            </motion.button>
+          </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50">
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Crop Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Variety
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Price/kg
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Min Price
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Max Price
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Avg Price
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Weight
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Location
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {crops.map((crop) => (
-                <TableRow key={crop.cropID} crop={crop} />
-              ))}
-
-              <motion.tr
-                whileHover={{ backgroundColor: "rgba(0,0,0,0.02)" }}
-                className="cursor-pointer"
-                onClick={() => setIsModalOpen(true)}
-              >
-                <td colSpan="9" className="px-6 py-4">
-                  <div className="flex justify-center items-center text-green-600 hover:text-green-700">
-                    <FontAwesomeIcon icon={faPlus} className="mr-2" />
-                    Add New Crop
-                  </div>
-                </td>
-              </motion.tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+          <div className="p-6 overflow-x-auto">
+            <table className="min-w-full divide-y divide-[#DDA15E]/20">
+              <thead>
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
+                    Crop Name
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
+                    Variety
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
+                    Price/kg
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
+                    Min Price
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
+                    Max Price
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
+                    Avg Price
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
+                    Weight
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
+                    Location
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#606C38] uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-[#DDA15E]/10">
+                <AnimatePresence>
+                  {crops.length > 0 ? (
+                    crops.map((crop) => (
+                      <TableRow key={crop.cropID} crop={crop} />
+                    ))
+                  ) : (
+                    <motion.tr 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      <td colSpan="9" className="px-6 py-12 text-center">
+                        <div className="text-[#606C38] flex flex-col items-center">
+                          <FontAwesomeIcon icon={faLeaf} className="text-4xl mb-3 opacity-50" />
+                          <p className="text-lg">No crops added yet. Click "Add New Crop" to get started.</p>
+                        </div>
+                      </td>
+                    </motion.tr>
+                  )}
+                </AnimatePresence>
+              </tbody>
+            </table>
+          </div>
+        </motion.div>
+      </motion.div>
 
       <Modal
         isModalOpen={isModalOpen}
@@ -290,7 +377,7 @@ const FarmerMarket = ({ farmerID }) => {
         setCropData={setCropData}
         editingCrop={editingCrop}
       />
-    </div>
+    </motion.div>
   );
 };
 

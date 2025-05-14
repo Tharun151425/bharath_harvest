@@ -2,7 +2,8 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebaseFunctions/firebaseConfig";
-import { ShoppingCart, LogOut, Settings } from "lucide-react";
+import { ShoppingCart, LogOut, Settings, ShoppingBag, User, Calendar } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function BuyerProfile() {
   const { userID } = useParams(); // Get buyerID from the URL
@@ -16,51 +17,149 @@ export default function BuyerProfile() {
     }
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 300, damping: 24 }
+    }
+  };
+
+  const dashboardItems = [
+    {
+      title: "Recent Orders",
+      icon: ShoppingBag,
+      description: "Track your purchases and order history",
+    },
+    {
+      title: "Account Details",
+      icon: User,
+      description: "Update your personal information and preferences",
+    },
+    {
+      title: "Upcoming Deliveries",
+      icon: Calendar,
+      description: "Check status of crops you've purchased",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+    <motion.div 
+      className="min-h-screen bg-[#FEFAE0]/30 py-12 px-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.div 
+        className="max-w-4xl mx-auto"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {/* Profile Header */}
-        <div className="bg-blue-500 px-8 py-12 text-center">
-          <ShoppingCart className="w-24 h-24 text-white mb-4" />
-          <h2 className="text-2xl font-bold text-white mb-2">
+        <motion.div
+          variants={itemVariants}
+          className="bg-[#606C38] rounded-t-2xl px-8 py-12 text-center shadow-lg"
+        >
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ 
+              type: "spring", 
+              stiffness: 260, 
+              damping: 20,
+              delay: 0.3 
+            }}
+            className="w-24 h-24 bg-[#FEFAE0] rounded-full flex justify-center items-center mx-auto mb-6 shadow-md"
+          >
+            <ShoppingCart className="w-12 h-12 text-[#283618]" />
+          </motion.div>
+          
+          <h2 className="text-3xl font-bold text-[#FEFAE0] mb-3">
             Buyer Dashboard
           </h2>
-          <span className="text-blue-100">Buyer ID: {userID}</span>
-        </div>
+          <motion.div 
+            className="h-1 w-24 bg-[#DDA15E] mx-auto rounded-full mb-4"
+            initial={{ width: 0 }}
+            animate={{ width: 96 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          />
+          <span className="text-[#FEFAE0]/80 bg-[#283618]/30 px-3 py-1 rounded-full text-sm">
+            ID: {userID}
+          </span>
+        </motion.div>
 
         {/* Profile Content */}
-        <div className="p-8">
-          <div className="space-y-6">
-            <div className="flex items-center gap-3 text-xl font-semibold text-gray-800">
-              <ShoppingCart className="w-6 h-6 text-blue-500" />
-              <h3>Recent Orders</h3>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <h4 className="font-medium text-gray-700 mb-2">
-                Track your purchases and history
-              </h4>
-              <p className="text-gray-600">
-                View your recent orders and their statuses.
-              </p>
-            </div>
+        <motion.div 
+          variants={itemVariants}
+          className="bg-white rounded-b-2xl p-8 shadow-lg"
+        >
+          <div className="space-y-8">
+            {dashboardItems.map((item, index) => (
+              <motion.div 
+                key={index}
+                className="group"
+                variants={itemVariants}
+                whileHover={{ 
+                  scale: 1.02,
+                  transition: { duration: 0.2 }
+                }}
+              >
+                <div className="flex items-center gap-4 mb-2">
+                  <div className="w-10 h-10 rounded-full bg-[#606C38]/10 flex items-center justify-center group-hover:bg-[#606C38]/20 transition-colors">
+                    <item.icon className="w-5 h-5 text-[#606C38]" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-[#283618]">
+                    {item.title}
+                  </h3>
+                </div>
+                
+                <div className="ml-14 p-4 bg-[#FEFAE0] rounded-lg border-l-4 border-[#DDA15E]">
+                  <p className="text-[#606C38]">
+                    {item.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </div>
 
           {/* Actions */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-8 pt-8 border-t">
-            <button className="flex-1 inline-flex justify-center items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row gap-4 mt-10 pt-8 border-t border-[#DDA15E]/20"
+          >
+            <motion.button 
+              className="flex-1 inline-flex justify-center items-center gap-2 px-4 py-3 bg-[#606C38] text-[#FEFAE0] rounded-lg shadow-md font-medium"
+              whileHover={{ scale: 1.03, backgroundColor: "#283618" }}
+              whileTap={{ scale: 0.97 }}
+            >
               <Settings className="w-5 h-5" />
               Account Settings
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               onClick={handleSignOut}
-              className="flex-1 inline-flex justify-center items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+              className="flex-1 inline-flex justify-center items-center gap-2 px-4 py-3 bg-[#BC6C25] text-[#FEFAE0] rounded-lg shadow-md font-medium"
+              whileHover={{ scale: 1.03, backgroundColor: "#9c5a1d" }}
+              whileTap={{ scale: 0.97 }}
             >
               <LogOut className="w-5 h-5" />
               Sign Out
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+            </motion.button>
+          </motion.div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }
